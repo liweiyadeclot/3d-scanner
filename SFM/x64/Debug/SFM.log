@@ -1,0 +1,23 @@
+﻿  SFM.cpp
+D:\研0\testCeres\SFM\src\SFM.cpp(65,21): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\研0\testCeres\SFM\src\SFM.cpp(111,109): warning C4267: '=': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+D:\研0\testCeres\SFM\src\SFM.cpp(112,109): warning C4267: '=': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+D:\研0\testCeres\SFM\src\SFM.cpp(143,32): warning C4244: '=': conversion from '_Tp' to 'float', possible loss of data
+          with
+          [
+              _Tp=double
+          ]
+D:\研0\testCeres\SFM\src\SFM.cpp(137,9): warning C4101: 'tr': unreferenced local variable
+  SFMAPI.cpp
+  Generating Code...
+  SFM.vcxproj -> D:\研0\testCeres\bin\x64\Debug\SFM.dll
+  'pwsh.exe' 不是内部或外部命令，也不是可运行的程序
+  或批处理文件。
