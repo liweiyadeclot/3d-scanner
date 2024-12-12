@@ -1,4 +1,5 @@
 #pragma once
+#include <opencv2/opencv.hpp>
 
 #ifdef CAPTUREDEVICECONTROL_EXPORTS
 #define CONTROLLER_API __declspec(dllexport)
@@ -6,10 +7,11 @@
 #define CONTROLLER_API __declspec(dllimport)
 #endif
 
-typedef void (*CallbackFunction)();
+typedef void (*InitCallbackFunction)(cv::Mat img1, cv::Mat img2);
+typedef void (*NextCallbackFunction)(cv::Mat img);
 
 // 
-extern "C" CONTROLLER_API void RegisterInitImagesCapturedCallback(CallbackFunction callback);
-extern "C" CONTROLLER_API void RegisterNextImagesCapturedCallback(CallbackFunction callback);
+extern "C" CONTROLLER_API void RegisterInitImagesCapturedCallback(InitCallbackFunction callback);
+extern "C" CONTROLLER_API void RegisterNextImagesCapturedCallback(NextCallbackFunction callback);
 
 extern "C" CONTROLLER_API void Capture();

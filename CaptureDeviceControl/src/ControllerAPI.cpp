@@ -1,15 +1,15 @@
 #include "ControllerAPI.h"
 
-static CallbackFunction g_InitImagesCapturedcallback = nullptr;
-static CallbackFunction g_NextImagesCapturedcallback = nullptr;
+static InitCallbackFunction g_InitImagesCapturedcallback = nullptr;
+static NextCallbackFunction g_NextImagesCapturedcallback = nullptr;
 
-CONTROLLER_API void RegisterInitImagesCapturedCallback(CallbackFunction callback)
+CONTROLLER_API void RegisterInitImagesCapturedCallback(InitCallbackFunction callback)
 {
 	g_InitImagesCapturedcallback = callback;
 	return;
 }
 
-CONTROLLER_API void RegisterNextImagesCapturedCallback(CallbackFunction callback)
+CONTROLLER_API void RegisterNextImagesCapturedCallback(NextCallbackFunction callback)
 {
 	g_NextImagesCapturedcallback = callback;
 	return;
@@ -18,8 +18,9 @@ CONTROLLER_API void RegisterNextImagesCapturedCallback(CallbackFunction callback
 CONTROLLER_API void Capture()
 {
 	// when two image captured
-	g_InitImagesCapturedcallback();
+	// g_InitImagesCapturedcallback();
+	// 
 	// when next image captured
-	g_NextImagesCapturedcallback();
+	// g_NextImagesCapturedcallback();
 	return;
 }
