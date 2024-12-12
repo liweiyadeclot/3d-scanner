@@ -19,7 +19,6 @@ void OnNextImageCaptured(cv::Mat img)
 
 int main(void)
 {
-	std::string imagePath = "../images/";
 
 	Controller::RegisterInitImagesCapturedCallback(OnInitTwoImageCaptured);
 	Controller::RegisterNextImagesCapturedCallback(OnNextImageCaptured);
@@ -29,4 +28,6 @@ int main(void)
 	captureThread.join();
 
 	std::thread sfmThread(SFM::AllImageCaptured);
+
+	sfmThread.join();
 }

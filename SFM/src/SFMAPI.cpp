@@ -22,8 +22,6 @@ namespace SFM
 
 	SFMAPI void SetImagePath(const std::string& path)
 	{
-		INIT_IMG_PATH1 = path + "0.jpg";
-		INIT_IMG_PATH2 = path + "1.jpg";
 	}
 
 }
