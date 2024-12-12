@@ -1,0 +1,11 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/.vs/3DScanner
+/x64/Debug
+/bin/x64/Debug
+/3rdLibs
+/CaptureDeviceControl/x64/Debug
+/SFM/x64/Debug
+/Test/x64/Debug
