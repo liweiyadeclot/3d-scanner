@@ -1,18 +1,32 @@
 #include <string>
+#include <thread>
 #include "ControllerAPI.h"
 #include "SFMAPI.h"
+
+void OnInitTwoImageCaptured(cv::Mat img1, cv::Mat img2)
+{
+	std::thread sfmThread(SFM::OnInitTwoImageCaptured, img1, img2);
+
+	sfmThread.join();
+}
+
+void OnNextImageCaptured(cv::Mat img)
+{
+	std::thread sfmThread(SFM::OnNextImageCaptured, img);
+
+	sfmThread.join();
+}
 
 int main(void)
 {
 	std::string imagePath = "../images/";
 
-	OnInitTwoImageCaptured();
+	Controller::RegisterInitImagesCapturedCallback(OnInitTwoImageCaptured);
+	Controller::RegisterNextImagesCapturedCallback(OnNextImageCaptured);
 
-	for (size_t i = 2; i < 7; ++i)
-	{
-		cv::Mat newImage = cv::imread(imagePath + std::to_string(i) + ".jpg");
-		OnNextImageCaptured(newImage);
-	}
+	std::thread captureThread(Controller::Capture);
 
-	AllImageCaptured();
+	captureThread.join();
+
+	std::thread sfmThread(SFM::AllImageCaptured);
 }

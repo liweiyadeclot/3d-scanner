@@ -17,7 +17,7 @@ namespace SFM
 	extern std::vector<std::string> subImagePaths;
 	extern std::vector<Image> subImageBag;
 
-	void InitConstruction();
+	void InitConstruction(cv::Mat img1, cv::Mat img2);
 
 	void AddImageToConstruction();
 

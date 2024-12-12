@@ -4,9 +4,6 @@
 
 namespace SFM
 {
-	std::string INIT_IMG_PATH1 = "../images/0.jpg";
-
-	std::string INIT_IMG_PATH2 = "../images/1.jpg";
 
 	std::vector<Image> initImages;
 	std::vector<cv::Point3d> allReconstructedPoints;
@@ -19,11 +16,11 @@ namespace SFM
 		0.0f, 2905.88f, 1064.7f,
 		0.0f, 0.0f, 1.0f);
 
-	void InitConstruction()
+	void InitConstruction(cv::Mat img1, cv::Mat img2)
 	{
 
-		initImages.push_back(Image(INIT_IMG_PATH1));
-		initImages.push_back(Image(INIT_IMG_PATH2));
+		initImages.push_back(Image(img1));
+		initImages.push_back(Image(img2));
 
 		std::cout << initImages.size() << std::endl;
 		std::vector<cv::DMatch> matches;
@@ -79,6 +76,7 @@ namespace SFM
 
 			// TO-DO: Why dont use discardR and discardT?
 			cv::solvePnPRansac(subImageBag[newImageIndex].m_objectPoints, subImageBag[newImageIndex].m_imagePoints, K, cv::noArray(), subImageBag[newImageIndex].m_R, subImageBag[newImageIndex].m_t);
+
 			cv::Rodrigues(subImageBag[newImageIndex].m_R, subImageBag[newImageIndex].m_R);
 
 			std::vector<cv::Point3d> newRestructurePoints;
@@ -236,6 +234,4 @@ namespace SFM
 		subImageBag.push_back(Image(newImage));
 		AddImageToConstruction();
 	}
-
-
 }

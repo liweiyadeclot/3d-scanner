@@ -10,11 +10,13 @@
 #endif
 
 
+namespace SFM
+{
+	extern "C" SFMAPI void OnInitTwoImageCaptured(cv::Mat img1, cv::Mat img2);
 
-extern "C" SFMAPI void OnInitTwoImageCaptured();
+	extern "C" SFMAPI void OnNextImageCaptured(cv::Mat newImage);
 
-extern "C" SFMAPI void OnNextImageCaptured(cv::Mat newImage);
+	extern "C" SFMAPI void AllImageCaptured();
 
-extern "C" SFMAPI void AllImageCaptured();
-
-extern "C" SFMAPI void SetImagePath(const std::string& path);
+	extern "C" SFMAPI void SetImagePath(const std::string & path);
+}
