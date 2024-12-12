@@ -9,6 +9,7 @@
 typedef void (*CallbackFunction)();
 
 // 
-extern "C" CONTROLLER_API void RegisterCallback(CallbackFunction callback);
+extern "C" CONTROLLER_API void RegisterInitImagesCapturedCallback(CallbackFunction callback);
+extern "C" CONTROLLER_API void RegisterNextImagesCapturedCallback(CallbackFunction callback);
 
 extern "C" CONTROLLER_API void Capture();
