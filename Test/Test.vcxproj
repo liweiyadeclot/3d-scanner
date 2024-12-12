@@ -120,8 +120,12 @@
       <AdditionalDependencies>SFM.lib;CaptureDeviceControl.lib;opencv_world480d.lib;opencv_world480.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "..\bin\x64\Debug\SFM.dll" "$(OutDir)"
-xcopy /y /d "..\bin\x64\Debug\CaptureDeviceControl.dll" "$(OutDir)"</Command>
+      <Command>xcopy /y /d "..\bin\x64\Debug\SFM.pdb" "$(OutDir)"
+xcopy /y /d "..\bin\x64\Debug\SFM.dll" "$(OutDir)"
+xcopy /y /d "..\bin\x64\Debug\CaptureDeviceControl.dll" "$(OutDir)"
+xcopy /y /d "..\bin\x64\Debug\CaptureDeviceControl.pdb" "$(OutDir)"
+xcopy /y /d "..\3rdLibs\opencv_world480d.dll" "$(OutDir)"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,10 +146,11 @@ xcopy /y /d "..\bin\x64\Debug\CaptureDeviceControl.dll" "$(OutDir)"</Command>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /d "..\bin\x64\Debug\SFM.dll" "$(OutDir)"
-xcopy /y /d "..\bin\x64\Debug\CaptureDeviceControl.dll" "$(OutDir)"
-xcopy /y /d "..\bin\x64\Debug\SFM.pdb" "$(OutDir)"
-xcopy /y /d "..\bin\x64\Debug\CaptureDeviceControl.pdb" "$(OutDir)"</Command>
+      <Command>xcopy /y /d "..\bin\x64\Release\SFM.dll" "$(OutDir)"
+xcopy /y /d "..\bin\x64\Release\CaptureDeviceControl.dll" "$(OutDir)"
+xcopy /y /d "..\bin\x64\Release\SFM.pdb" "$(OutDir)"
+xcopy /y /d "..\bin\x64\Release\CaptureDeviceControl.pdb" "$(OutDir)"
+xcopy /y /d "..\3rdLibs\opencv_world480d.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
