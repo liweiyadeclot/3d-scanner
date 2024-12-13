@@ -6,7 +6,12 @@ static int s_numImg = 0;
 class Image
 {
 public:
-	Image(const std::string& path);
+
+	int m_nfeatures = 0;
+	int m_nOctaveLayers = 5;
+	double m_contrastThreshold = 0.004;
+	double m_edgeThreshold = 10;
+
 	Image(const cv::Mat& img);
 	void MatchFeatures(Image& otherImage,  std::vector<cv::DMatch>& outputMatches);
 

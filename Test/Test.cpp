@@ -27,6 +27,8 @@ int main(void)
 	SFM::OnInitTwoImageCaptured(initImage1, initImage2);
 	SFM::OnNextImageCaptured(img2);
 
+	SFM::AllImageCaptured();
+
 	/*Controller::RegisterInitImagesCapturedCallback(OnInitTwoImageCaptured);
 	Controller::RegisterNextImagesCapturedCallback(OnNextImageCaptured);
 

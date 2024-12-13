@@ -1,28 +1,5 @@
 #include "Image.h"
 #include <cassert>
-Image::Image(const std::string & path)
-{
-	m_image = cv::imread(path);
-	assert(!m_image.empty());
-	
-
-	s_numImg++;
-	m_Index = s_numImg;
-
-	// SIFT
-	cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 10, 0.000001, 16);
-	//cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 3, 0.1, 10);
-	sift->detectAndCompute(m_image, cv::noArray(), m_keyPoints, m_descriptor);
-	cv::Mat outputKeypoints;
-	cv::drawKeypoints(m_image, m_keyPoints, outputKeypoints);
-	cv::imwrite("KeyPoints" + std::to_string(m_Index) + ".jpg", outputKeypoints);
-	for (size_t i = 0; i < m_keyPoints.size(); ++i)
-	{
-		m_correspondStructIdx.push_back(-1);
-	}
-
-	
-}
 
 Image::Image(const cv::Mat& img) : m_image(img)
 {
@@ -31,7 +8,7 @@ Image::Image(const cv::Mat& img) : m_image(img)
 	m_Index = s_numImg;
 
 	// SIFT
-	cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 10, 0.000001, 16);
+	cv::Ptr<cv::SIFT> sift = cv::SIFT::create(m_nfeatures, m_nOctaveLayers, m_contrastThreshold, m_edgeThreshold);
 	// cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 3, 0.1, 10);
 	sift->detectAndCompute(m_image, cv::noArray(), m_keyPoints, m_descriptor);
 	cv::Mat outputKeypoints;
@@ -51,8 +28,6 @@ void Image::MatchFeatures(Image& otherImage, std::vector<cv::DMatch>& outputMatc
 	std::vector<std::vector<cv::DMatch>>  matches;
 	cv::FlannBasedMatcher matcher;
 	matcher.knnMatch(m_descriptor, otherImage.m_descriptor, matches, 2);
-
-
 	
 	for (size_t i = 0; i < matches.size(); ++i)
 	{
