@@ -10,8 +10,8 @@ Image::Image(const std::string & path)
 	m_Index = s_numImg;
 
 	// SIFT
-	//cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 10, 0.000001, 16);
-	cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 3, 0.1, 10);
+	cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 10, 0.000001, 16);
+	//cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 3, 0.1, 10);
 	sift->detectAndCompute(m_image, cv::noArray(), m_keyPoints, m_descriptor);
 	cv::Mat outputKeypoints;
 	cv::drawKeypoints(m_image, m_keyPoints, outputKeypoints);
@@ -31,8 +31,8 @@ Image::Image(const cv::Mat& img) : m_image(img)
 	m_Index = s_numImg;
 
 	// SIFT
-	//cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 10, 0.000001, 16);
-	cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 3, 0.1, 10);
+	cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 10, 0.000001, 16);
+	// cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 3, 0.1, 10);
 	sift->detectAndCompute(m_image, cv::noArray(), m_keyPoints, m_descriptor);
 	cv::Mat outputKeypoints;
 	cv::drawKeypoints(m_image, m_keyPoints, outputKeypoints);

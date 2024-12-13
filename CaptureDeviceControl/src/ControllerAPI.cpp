@@ -5,7 +5,7 @@ namespace Controller
 {
 	static InitCallbackFunction g_InitImagesCapturedcallback = nullptr;
 	static NextCallbackFunction g_NextImagesCapturedcallback = nullptr;
-	static TurntableScanner g_scanner{};
+	
 
 	CONTROLLER_API void RegisterInitImagesCapturedCallback(InitCallbackFunction callback)
 	{
@@ -21,6 +21,8 @@ namespace Controller
 
 	CONTROLLER_API void Capture()
 	{
+		TurntableScanner g_scanner{};
+
 		cv::Mat initImage1{ g_scanner.nextPicture() };
 		cv::Mat initImage2{ g_scanner.nextPicture() };
 		// when two image captured
