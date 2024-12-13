@@ -27,6 +27,6 @@ int main(void)
 	std::thread captureThread(Controller::Capture);
 
 	captureThread.join();
-
 	std::thread sfmThread(SFM::AllImageCaptured);
+	sfmThread.join();
 }

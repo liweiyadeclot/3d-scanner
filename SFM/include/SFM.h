@@ -6,9 +6,7 @@
 namespace SFM
 {
 
-	extern std::string INIT_IMG_PATH1;
 
-	extern std::string INIT_IMG_PATH2;
 
 	extern std::vector<Image> initImages;
 	extern std::vector<cv::Point3d> allReconstructedPoints;
