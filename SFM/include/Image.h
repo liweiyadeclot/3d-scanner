@@ -8,8 +8,8 @@ class Image
 public:
 
 	int m_nfeatures = 0;
-	int m_nOctaveLayers = 5;
-	double m_contrastThreshold = 0.004;
+	int m_nOctaveLayers = 3;
+	double m_contrastThreshold = 0.01;
 	double m_edgeThreshold = 10;
 
 	Image(const cv::Mat& img);
