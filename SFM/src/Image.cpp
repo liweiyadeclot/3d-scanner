@@ -66,11 +66,9 @@ void Image::GetObjPointsAndImagePoints(const std::vector<cv::DMatch>& matches, s
 		// ���ƥ�����preImage��Ӧ����ά�ռ�����
 		if (matchedWorldPoitnIndices > 0)
 		{
-			// ���䣨ǰһ��ͼ���е���ά����ӣ�
-			// TO-DO: We should re caculate the new point 3d pos and get average value for the 3d point.
+		// TO-DO: We should re caculate the new point 3d pos and get average value for the 3d point.
 			m_objectPoints.push_back(allReconstructedPoints[matchedWorldPoitnIndices]);
 
-			// ��ƥ��㣨��ͼ��Ķ�ά��)���
 			m_imagePoints.push_back(m_keyPoints[matches[i].trainIdx].pt);
 		}
 	}
