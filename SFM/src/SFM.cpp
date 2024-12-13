@@ -4,6 +4,7 @@
 
 namespace SFM
 {
+
 	std::vector<Image> initImages;
 	std::vector<cv::Point3d> allReconstructedPoints;
 	std::vector<cv::Vec3b> allPointsColors;
@@ -17,6 +18,7 @@ namespace SFM
 
 	void InitConstruction(cv::Mat img1, cv::Mat img2)
 	{
+
 		initImages.push_back(Image(img1));
 		initImages.push_back(Image(img2));
 

@@ -6,6 +6,8 @@
 namespace SFM
 {
 
+
+
 	extern std::vector<Image> initImages;
 	extern std::vector<cv::Point3d> allReconstructedPoints;
 	extern std::vector<cv::Vec3b> allPointsColors;

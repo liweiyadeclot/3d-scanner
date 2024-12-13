@@ -19,24 +19,14 @@ void OnNextImageCaptured(cv::Mat img)
 
 int main(void)
 {
-	std::string path("../images/");
-	cv::Mat initImage1 = cv::imread(path + std::string("0.jpg"));
-	cv::Mat initImage2 = cv::imread(path + std::string("1.jpg"));
+	std::string imagePath = "../images/";
 
-	cv::Mat img2 = cv::imread(path + std::string("2.jpg"));
-	SFM::OnInitTwoImageCaptured(initImage1, initImage2);
-	SFM::OnNextImageCaptured(img2);
-
-	SFM::AllImageCaptured();
-
-	/*Controller::RegisterInitImagesCapturedCallback(OnInitTwoImageCaptured);
+	Controller::RegisterInitImagesCapturedCallback(OnInitTwoImageCaptured);
 	Controller::RegisterNextImagesCapturedCallback(OnNextImageCaptured);
 
 	std::thread captureThread(Controller::Capture);
 
 	captureThread.join();
-
 	std::thread sfmThread(SFM::AllImageCaptured);
-
-	sfmThread.join();*/
+	sfmThread.join();
 }

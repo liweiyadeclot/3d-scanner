@@ -22,6 +22,7 @@ namespace SFM
 
 	SFMAPI void SetImagePath(const std::string& path)
 	{
+
 	}
 
 }

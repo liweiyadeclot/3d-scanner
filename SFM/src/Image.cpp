@@ -61,16 +61,16 @@ void Image::GetObjPointsAndImagePoints(const std::vector<cv::DMatch>& matches, s
 
 	for (size_t i = 0; i < matches.size(); ++i)
 	{
-		// »ñÈ¡Æ¥ÅäµãÔÚpreImageÖÐ¶ÔÓ¦µÄÈýÎ¬¿Õ¼äµãµÄË÷Òý
+		// ï¿½ï¿½È¡Æ¥ï¿½ï¿½ï¿½ï¿½ï¿½preImageï¿½Ð¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Î¬ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		int matchedWorldPoitnIndices = preImage.m_correspondStructIdx[matches[i].queryIdx];
-		// Èç¹ûÆ¥ÅäµãÔÚpreImage¶ÔÓ¦µÄÈýÎ¬¿Õ¼äµã´æÔÚ
+		// ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ï¿½preImageï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Î¬ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (matchedWorldPoitnIndices > 0)
 		{
-			// ½«Æä£¨Ç°Ò»ÕÅÍ¼ÏñÖÐµÄÈýÎ¬µãÌí¼Ó£©
+			// ï¿½ï¿½ï¿½ä£¨Ç°Ò»ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½Ó£ï¿½
 			// TO-DO: We should re caculate the new point 3d pos and get average value for the 3d point.
 			m_objectPoints.push_back(allReconstructedPoints[matchedWorldPoitnIndices]);
 
-			// ½«Æ¥Åäµã£¨ÐÂÍ¼ÏñµÄ¶þÎ¬µã)Ìí¼Ó
+			// ï¿½ï¿½Æ¥ï¿½ï¿½ã£¨ï¿½ï¿½Í¼ï¿½ï¿½Ä¶ï¿½Î¬ï¿½ï¿½)ï¿½ï¿½ï¿½
 			m_imagePoints.push_back(m_keyPoints[matches[i].trainIdx].pt);
 		}
 	}
