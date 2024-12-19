@@ -1,9 +1,14 @@
 #include "Image.h"
 #include <cassert>
+#include <fstream>
+
+const std::string OutPutPath ="../Captured/";
 
 Image::Image(const cv::Mat& img) : m_image(img)
 {
 	assert(!m_image.empty());
+	SaveJPG();
+
 	s_numImg++;
 	m_Index = s_numImg;
 
@@ -19,6 +24,29 @@ Image::Image(const cv::Mat& img) : m_image(img)
 		m_correspondStructIdx.push_back(-1);
 	}
 }
+
+int Image::GetFileSize(const std::string& filePath)
+{
+	std::ifstream file(filePath, std::ios::binary);
+	if (!file)
+	{
+		// 如果文件无法打开，返回0
+		return 0;
+	}
+
+	// 移动到文件末尾
+	file.seekg(0, std::ios::end);
+
+	// 获取文件大小
+	int fileSize = static_cast<size_t>(file.tellg());
+
+	// 关闭文件
+	file.close();
+
+	// 返回文件大小
+	return fileSize;
+}
+
 
 void Image::MatchFeatures(Image& otherImage, std::vector<cv::DMatch>& outputMatches)
 {
@@ -72,5 +100,17 @@ void Image::GetObjPointsAndImagePoints(const std::vector<cv::DMatch>& matches, s
 			m_imagePoints.push_back(m_keyPoints[matches[i].trainIdx].pt);
 		}
 	}
+}
+
+void Image::SaveJPG()
+{
+	std::string fileName(OutPutPath + "Captured" + std::to_string(s_numImg) + ".jpg");
+
+	cv::imwrite(fileName, m_image);
+	std::ifstream file(fileName, std::ios::binary);
+	size_t size = GetFileSize(fileName);
+	m_imageDataSize = size;
+	m_imageData = new uint8_t[size];
+	file.read(reinterpret_cast<char*>(m_imageData), size);
 }
 

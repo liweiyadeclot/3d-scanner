@@ -1,5 +1,6 @@
 #include "SFMAPI.h"
 #include "OutputPLY.h"
+#include "OutputToFile.h"
 
 namespace SFM
 {
@@ -18,6 +19,11 @@ namespace SFM
 	SFMAPI void AllImageCaptured()
 	{
 		OutputPLY(allReconstructedPoints, allPointsColors);
+		std::vector<CameraInfo> cameraInfos;
+		std::vector<ImageData> imageDatas;
+		std::vector<Point3dInfo> point3ds;
+		PrepareDataToFile(cameraInfos, imageDatas, point3ds);
+		OutPutToFile(imageDatas, cameraInfos, point3ds);
 	}
 
 	SFMAPI void SetImagePath(const std::string& path)

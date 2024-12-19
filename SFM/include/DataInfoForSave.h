@@ -72,7 +72,7 @@ typedef struct Point2dInfo
 {
 	double m_x;
 	double m_y;
-	uint32_t m_p3dId;
+	int m_p3dId;
 } Point2dInfo;
 
 typedef struct TrackInfo

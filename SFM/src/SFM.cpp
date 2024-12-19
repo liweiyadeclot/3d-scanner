@@ -21,7 +21,7 @@ namespace SFM
 
 		initImages.push_back(Image(img1));
 		initImages.push_back(Image(img2));
-
+		
 		std::cout << initImages.size() << std::endl;
 		std::vector<cv::DMatch> matches;
 		initImages[0].MatchFeatures(initImages[1], matches);
@@ -130,58 +130,32 @@ namespace SFM
 		
 	}
 
-	cv::Mat Matrix2Quaternion(cv::Mat matrix)
+	std::vector<double> Matrix2Quaternion(cv::Mat matrix)
 	{
-		float tr, qx, qy, qz, qw;
+		assert(matrix.rows == 3 && matrix.cols == 3, "Matrix is not 3*3!");
 
-		// 计算矩阵轨迹
-		float a[4][4] = { 0 };
-		for (int i = 0; i < 4; i++)
-			for (int j = 0; j < 4; j++)
-				a[i][j] = matrix.at<double>(i, j);
+		cv::Mat rvec;
+		cv::Rodrigues(matrix, rvec);
+		return RodriguesToQuaternion(rvec);
+	}
 
-		// I removed + 1.0f; see discussion with Ethan
-		float trace = a[0][0] + a[1][1] + a[2][2];
-		if (trace > 0)
-		{
-			// I changed M_EPSILON to 0
-			float s = 0.5f / sqrtf(trace + 1.0f);
-			qw = 0.25f / s;
-			qx = (a[2][1] - a[1][2]) * s;
-			qy = (a[0][2] - a[2][0]) * s;
-			qz = (a[1][0] - a[0][1]) * s;
+	std::vector<double> RodriguesToQuaternion(const cv::Mat& rvec)
+	{
+		double theta = cv::norm(rvec); // 旋转向量的模长即为旋转角度
+		std::vector<double> quaternion(4, 0.0); // 初始化四元数为零向量
+
+		if (theta > 0) {
+			cv::Mat rvec_normalized = rvec / theta; // 归一化旋转向量
+			quaternion[0] = std::cos(theta / 2); // 四元数的实部
+			quaternion[1] = rvec_normalized.at<double>(0) * std::sin(theta / 2); // 四元数的虚部x
+			quaternion[2] = rvec_normalized.at<double>(1) * std::sin(theta / 2); // 四元数的虚部y
+			quaternion[3] = rvec_normalized.at<double>(2) * std::sin(theta / 2); // 四元数的虚部z
 		}
-		else
-		{
-			if (a[0][0] > a[1][1] && a[0][0] > a[2][2])
-			{
-				float s = 2.0f * sqrtf(1.0f + a[0][0] - a[1][1] - a[2][2]);
-				qw = (a[2][1] - a[1][2]) / s;
-				qx = 0.25f * s;
-				qy = (a[0][1] + a[1][0]) / s;
-				qz = (a[0][2] + a[2][0]) / s;
-			}
-			else if (a[1][1] > a[2][2])
-			{
-				float s = 2.0f * sqrtf(1.0f + a[1][1] - a[0][0] - a[2][2]);
-				qw = (a[0][2] - a[2][0]) / s;
-				qx = (a[0][1] + a[1][0]) / s;
-				qy = 0.25f * s;
-				qz = (a[1][2] + a[2][1]) / s;
-			}
-			else
-			{
-				float s = 2.0f * sqrtf(1.0f + a[2][2] - a[0][0] - a[1][1]);
-				qw = (a[1][0] - a[0][1]) / s;
-				qx = (a[0][2] + a[2][0]) / s;
-				qy = (a[1][2] + a[2][1]) / s;
-				qz = 0.25f * s;
-			}
+		else {
+			quaternion[0] = 1.0; // 无旋转时，四元数为(1, 0, 0, 0)
 		}
 
-		float q[] = { qw, qx, qy, qz };
-		// cout<< "\n quaternion:"<<cv::Mat(4,1,CV_32FC1,q).t()<<endl;
-		return cv::Mat(4, 1, CV_32FC1, q).clone();
+		return quaternion;
 	}
 
 	void OutPutToFile(const std::vector<ImageData> imgs, std::vector<CameraInfo> cmrs, const std::vector<Point3dInfo> p3ds)

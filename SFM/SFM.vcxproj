@@ -144,6 +144,7 @@
     <ClCompile Include="src\Constructor.cpp" />
     <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\OutputPLY.cpp" />
+    <ClCompile Include="src\OutputToFile.cpp" />
     <ClCompile Include="src\SFM.cpp" />
     <ClCompile Include="src\SFMAPI.cpp" />
   </ItemGroup>
@@ -154,6 +155,7 @@
     <ClInclude Include="include\OutputPLY.h" />
     <ClInclude Include="include\SFM.h" />
     <ClInclude Include="include\SFMAPI.h" />
+    <ClInclude Include="include\OutputToFile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
