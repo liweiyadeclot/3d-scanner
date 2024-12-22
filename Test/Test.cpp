@@ -27,7 +27,7 @@ void TestReadImageWithPath()
 
 	OnInitTwoImageCaptured(initImage1, initImage2);
 
-	for (size_t i = 2; i < 3; ++i)
+	for (size_t i = 2; i < 4; ++i)
 	{
 		cv::Mat nextImage = cv::imread(imagePath + std::to_string(i) + ".jpg");
 		OnNextImageCaptured(nextImage);
@@ -39,9 +39,9 @@ void TestReadImageWithPath()
 
 int main(void)
 {
-	// TestReadImageWithPath();
+	TestReadImageWithPath();
 
-	std::string imagePath = "../images/";
+	/*std::string imagePath = "../images/";
 
 	Controller::RegisterInitImagesCapturedCallback(OnInitTwoImageCaptured);
 	Controller::RegisterNextImagesCapturedCallback(OnNextImageCaptured);
@@ -50,6 +50,6 @@ int main(void)
 
 	captureThread.join();
 	std::thread sfmThread(SFM::AllImageCaptured);
-	sfmThread.join();
+	sfmThread.join();*/
 }
 
