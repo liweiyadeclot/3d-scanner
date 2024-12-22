@@ -104,7 +104,8 @@ void Image::GetObjPointsAndImagePoints(const std::vector<cv::DMatch>& matches, s
 
 void Image::SaveJPG()
 {
-	std::string fileName(OutPutPath + "Captured" + std::to_string(s_numImg) + ".jpg");
+	std::string fileName(OutPutPath + std::to_string(s_numImg) + ".jpg");
+	m_imageName = fileName;
 
 	cv::imwrite(fileName, m_image);
 	std::ifstream file(fileName, std::ios::binary);
