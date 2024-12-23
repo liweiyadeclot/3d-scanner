@@ -4,6 +4,12 @@
 
 const std::string OutPutPath ="../Captured/";
 
+#ifdef _DEBUG 
+#define CONSOLE_OUT(x) std::cout << x << std::endl;
+#else
+#define CONSOLE_OUT(x)
+#endif
+
 Image::Image(const cv::Mat& img) : m_image(img)
 {
 	assert(!m_image.empty());
@@ -16,6 +22,7 @@ Image::Image(const cv::Mat& img) : m_image(img)
 	cv::Ptr<cv::SIFT> sift = cv::SIFT::create(m_nfeatures, m_nOctaveLayers, m_contrastThreshold, m_edgeThreshold);
 	// cv::Ptr<cv::SIFT> sift = cv::SIFT::create(0, 3, 0.1, 10);
 	sift->detectAndCompute(m_image, cv::noArray(), m_keyPoints, m_descriptor);
+	CONSOLE_OUT("KeyPoint of img " + std::to_string(s_numImg) + "has done");
 	cv::Mat outputKeypoints;
 	cv::drawKeypoints(m_image, m_keyPoints, outputKeypoints);
 	cv::imwrite("KeyPoints" + std::to_string(m_Index) + ".jpg", outputKeypoints);

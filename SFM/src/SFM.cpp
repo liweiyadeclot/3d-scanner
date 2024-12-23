@@ -60,8 +60,12 @@ namespace SFM
 	void AddImageToConstruction()
 	{
 		int newImageIndex = subImageBag.size() - 1;
+		int cureentImageHasComparedImageNum = 0;
 		for (size_t j = 1; j <= newImageIndex; j++)
 		{
+			if (cureentImageHasComparedImageNum >= 4)
+				continue;
+
 			size_t preImageIndex = newImageIndex - j;
 
 			std::vector<cv::DMatch> matches;
@@ -126,6 +130,8 @@ namespace SFM
 					allPointsColors.push_back(subImageBag[newImageIndex].m_colors[k]);
 				}
 			}
+
+			cureentImageHasComparedImageNum++;
 		}
 		
 	}
