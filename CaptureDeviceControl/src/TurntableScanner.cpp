@@ -22,23 +22,24 @@ public:
 	uint32_t m_imCount;
 	std::queue<cv::Mat> m_imgQue;
 	std::thread m_recvThread;
-	static void recvAndHandleData(Client* client, std::queue<cv::Mat>* imgQue, uint32_t* pimCount, std::recursive_mutex* pimCountMutex)
+	bool m_stopSign;
+	static void recvAndHandleData(TurntableScanner::Impl* impl)
 	{
-		while (true)
+		while (!impl->m_stopSign)
 		{
-			if (client->getServerCount() < 1)
+			if (impl->m_client.getServerCount() < 1)
 			{
-				client->freshServerList();
+				impl->m_client.freshServerList();
 				continue;
 			}
-			ProtocolData recvData{ client->recvFrom(0) };
+			ProtocolData recvData{ impl->m_client.recvFrom(0, 1000000) };
 			if (recvData.getInfo() == "imcount")
 			{
 				uint32_t appendingImgCount{ 0 };
 				recvData.getExtraData(reinterpret_cast<uint8_t*>(&appendingImgCount), sizeof(uint32_t));
-				pimCountMutex->lock();
-				*pimCount += appendingImgCount;
-				pimCountMutex->unlock();
+				impl->m_imCountMutex.lock();
+				impl->m_imCount += appendingImgCount;
+				impl->m_imCountMutex.unlock();
 			}
 			else if (recvData.getInfo() == "img")
 			{
@@ -46,23 +47,24 @@ public:
 				recvData.getExtraData(imgBuf, recvData.getExtraDataSize());
 				cv::Mat decodedImg{};
 				cv::imdecode(cv::Mat(1, recvData.getExtraDataSize(), CV_8UC1, imgBuf), cv::IMREAD_COLOR, &decodedImg);
-				imgQue->push(decodedImg);
+				impl->m_imgQue.push(decodedImg);
 			}
 		}
 	}
 
-	Impl() : m_client(), m_imCount(0), m_imgQue(), m_recvThread()
+	Impl() : m_client(), m_imCount(0), m_imgQue(), m_recvThread(), m_stopSign(false)
 	{
 		while (m_client.getServerCount() < 1)
 		{
 			m_client.freshServerList();
 		}
-		m_recvThread = std::thread(recvAndHandleData, &m_client, &m_imgQue, &m_imCount, &m_imCountMutex);
+		m_recvThread = std::thread(recvAndHandleData, this);
 	}
 
 	~Impl()
 	{
-		m_recvThread.detach();
+		m_stopSign = true;
+		m_recvThread.join();
 	}
 
 	int32_t capture()

@@ -10,6 +10,8 @@
 namespace ssp {
 	SOCKET MakeUDPSocket(const char* selfIp, const char* targetIp, u_short port);
 
+	int32_t Select(SOCKET s, uint32_t timeout_us = -1);
+
 	ProtocolData RecvFromTCP(SOCKET s);
 
 	ProtocolData RecvFromUDP(SOCKET s, sockaddr_in& addr, uint32_t bufSize=1024);

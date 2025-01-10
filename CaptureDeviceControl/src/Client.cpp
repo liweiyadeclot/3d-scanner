@@ -23,9 +23,13 @@ class Client::ClientImpl
 public:
 	static void recvAndFreshServer(Client::ClientImpl* client)
 	{
-		while (client->m_broadcastSocket != -1)
+		while (client->m_broadcastSocket != INVALID_SOCKET)
 		{
 			sockaddr_in addr{ 0 };
+			if (1 != Select(client->m_broadcastSocket, 1000000))
+			{
+				continue;
+			}
 			ProtocolData data{ RecvFromUDP(client->m_broadcastSocket, addr) };
 			if (data.getInfo() != "ssp_im_server")
 			{
@@ -71,7 +75,7 @@ public:
 		m_ServerListWriteLock(new std::recursive_mutex())
 	{
 		m_broadcastSocket = MakeUDPSocket(SELF_IP, BROADCAST_IP, BROADCAST_PORT);
-		if(INVALID_SOCKET == m_broadcastSocket)
+		if (INVALID_SOCKET == m_broadcastSocket)
 		{
 			perror("MakeUDPSocket failed");
 			return;
@@ -87,9 +91,11 @@ public:
 		{
 			closesocket(s);
 		}
-		closesocket(m_broadcastSocket);
-		m_serverListFreshThread.detach();
+		SOCKET s{ m_broadcastSocket };
+		m_broadcastSocket = INVALID_SOCKET;
 		m_ServerListWriteLock->unlock();
+		m_serverListFreshThread.join();
+		closesocket(s);
 		WSACleanup();
 		delete m_ServerListWriteLock;
 	}
@@ -124,12 +130,16 @@ public:
 		return (uint32_t)m_serverSockets.size();
 	}
 
-	ProtocolData recvFrom(uint32_t index) const
+	ProtocolData recvFrom(uint32_t index, uint32_t timeout_us) const
 	{
 		m_ServerListWriteLock->lock();
 		m_ServerListWriteLock->unlock();
 		ProtocolData data{ ProtocolData() };
 		if (index >= getServerCount())
+		{
+			return data;
+		}
+		if (1 != Select(m_serverSockets[index], timeout_us))
 		{
 			return data;
 		}
@@ -176,9 +186,9 @@ uint32_t Client::getServerCount() const
 	return m_impl->getServerCount();
 }
 
-ProtocolData Client::recvFrom(uint32_t index) const
+ProtocolData Client::recvFrom(uint32_t index, uint32_t timeout_us) const
 {
-	return m_impl->recvFrom(index);
+	return m_impl->recvFrom(index, timeout_us);
 }
 
 bool Client::sendTo(uint32_t index, const ProtocolData& data) const

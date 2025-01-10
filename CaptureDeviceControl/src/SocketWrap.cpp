@@ -43,6 +43,39 @@ namespace ssp {
 		return ret;
 	}
 
+	int32_t Select(SOCKET s, uint32_t timeout_us)
+	{
+		fd_set readfds;
+		FD_ZERO(&readfds);
+		FD_SET(s, &readfds);
+		int32_t select_result{ -1 };
+		if (timeout_us == -1)
+		{
+			select_result = select(0, &readfds, nullptr, nullptr, nullptr);
+		}
+		else
+		{
+			timeval timeout{ timeout_us / 1000000, timeout_us % 1000000 };
+			select_result = select(0, &readfds, nullptr, nullptr, &timeout);
+		}
+		if (select_result == SOCKET_ERROR)
+		{
+			return -1;
+		}
+		else if (select_result == 0)
+		{
+			return 0;
+		}
+		else if (FD_ISSET(s, &readfds))
+		{
+			return 1;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
 	ProtocolData RecvFromTCP(SOCKET s)
 	{
 		uint32_t dataLen{ 0 };
